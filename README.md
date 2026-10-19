@@ -12,6 +12,11 @@ BucketBanish is **read-only and never deletes anything**. You tick the photos to
 report: bucket, region, folder, filename, size, upload date, ETag and a direct AWS console link for each one.
 You then delete the files yourself in your S3 provider's web console.
 
+## Demo
+
+▶ **[Watch the demo video](BucketBanish-demo.mp4)** (75 s, no audio). It scans DigitalOcean Spaces buckets
+(7,769 photos), reviews the burst sets it found, and then removes one duplicate by hand in the provider's console.
+
 ## Run
 
 Requires Java 21.
