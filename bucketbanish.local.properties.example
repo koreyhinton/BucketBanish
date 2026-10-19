@@ -1,0 +1,33 @@
+# BucketBanish connection settings.
+#
+#   cp bucketbanish.local.properties.example bucketbanish.local.properties
+#
+# bucketbanish.local.properties is gitignored. Keep real keys only there, never in this .example file.
+# When access-key-id is set, ~/.aws/credentials and AWS_* env vars are NOT used.
+
+# --- Where the buckets are -------------------------------------------------------------
+# Leave endpoint empty for AWS S3. For other S3-compatible providers use their S3 endpoint, e.g.
+#   Wasabi:        https://s3.us-east-1.wasabisys.com
+#   Backblaze B2:  https://s3.us-west-004.backblazeb2.com
+#   DigitalOcean:  https://nyc3.digitaloceanspaces.com   (or atl1, sfo3, ams3...; region: us-east-1)
+#   Cloudflare R2: https://<account-id>.r2.cloudflarestorage.com   (region: auto)
+#   MinIO:         http://localhost:9000
+bucketbanish.endpoint=
+bucketbanish.region=us-east-1
+# Most non-AWS providers work either way; MinIO and some others need path-style.
+#bucketbanish.path-style=true
+
+# --- Credentials (read-only access is enough: list + get objects) --------------------
+bucketbanish.access-key-id=
+bucketbanish.secret-access-key=
+# Only for temporary credentials:
+#bucketbanish.session-token=
+
+# Alternative: use a named profile from ~/.aws/credentials instead of keys here.
+#bucketbanish.profile=work
+
+# --- Other ------------------------------------------------------------------------------
+# Demo without S3: each subfolder of this directory acts as a bucket.
+#bucketbanish.local-root=/path/to/photos
+#bucketbanish.threads=16
+#server.port=8080

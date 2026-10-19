@@ -1,0 +1,170 @@
+/* Layout and app-specific pieces on top of Pico CSS. Colors come from Pico's variables so light/dark follow it. */
+
+:root {
+  --bb-danger: #c62828;
+  --bb-danger-soft: rgb(198 40 40 / 12%);
+  --bb-safe: #1b7f45;
+  --bb-safe-soft: rgb(27 127 69 / 12%);
+  --bb-warn: #9a6400;
+  --bb-warn-soft: rgb(240 170 20 / 16%);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bb-danger: #ff8a80;
+    --bb-danger-soft: rgb(255 138 128 / 14%);
+    --bb-safe: #7bd8a0;
+    --bb-safe-soft: rgb(123 216 160 / 14%);
+    --bb-warn: #f5c56a;
+    --bb-warn-soft: rgb(245 197 106 / 14%);
+  }
+}
+
+[data-theme="dark"] {
+  --bb-danger: #ff8a80;
+  --bb-danger-soft: rgb(255 138 128 / 14%);
+  --bb-safe: #7bd8a0;
+  --bb-safe-soft: rgb(123 216 160 / 14%);
+  --bb-warn: #f5c56a;
+  --bb-warn-soft: rgb(245 197 106 / 14%);
+}
+
+.top { padding-block: 1.5rem 0.5rem; }
+.top hgroup { margin-bottom: 0.25rem; }
+.top h1 { display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap; }
+.muted { color: var(--pico-muted-color); }
+.error { color: var(--bb-danger); }
+
+textarea#targets { font-family: var(--pico-font-family-monospace); font-size: 0.9rem; }
+details summary[role="button"] { width: auto; display: inline-block; }
+.switches { margin-block: 0.5rem 1rem; }
+.switches label { margin-bottom: 0.25rem; }
+.form-actions { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
+.form-actions button { margin-bottom: 0; width: auto; min-width: 9rem; }
+
+.progress-row { display: flex; justify-content: space-between; gap: 1rem; margin-top: 1rem; }
+
+/* Summary stats */
+.summary { display: grid; grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr)); gap: 1rem; margin-bottom: 1rem; }
+.summary article { margin: 0; padding: 0.9rem 1.1rem; }
+.summary b { display: block; font-size: 1.5rem; font-variant-numeric: tabular-nums; color: var(--pico-h1-color); }
+.summary span { color: var(--pico-muted-color); font-size: 0.85rem; }
+
+/* Notices */
+.notice { border-radius: var(--pico-border-radius); padding: 0.75rem 1rem; margin-bottom: 1rem; font-size: 0.9rem; }
+.notice-info { background: var(--pico-card-sectioning-background-color); border-left: 4px solid var(--pico-primary); }
+.notice-warn { background: var(--bb-warn-soft); border-left: 4px solid var(--bb-warn); }
+.notice ul, .notice ol { margin: 0.4rem 0 0; }
+.notice p { margin: 0.4rem 0 0; }
+
+/* Tabs as a Pico button group */
+.tabs { overflow-x: auto; }
+.tabs button { white-space: nowrap; }
+.count {
+  display: inline-block;
+  min-width: 1.7em;
+  padding: 0 0.4em;
+  margin-left: 0.25em;
+  border-radius: 99px;
+  font-size: 0.75em;
+  text-align: center;
+  background: rgb(127 127 127 / 22%);
+}
+#tab-body { padding-block: 0.5rem 4rem; }
+.empty { color: var(--pico-muted-color); padding: 2rem 0; text-align: center; }
+
+/* Pills */
+.pill {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 600;
+  line-height: 1.6;
+  padding: 0 0.6em;
+  border-radius: 99px;
+  vertical-align: middle;
+  background: rgb(127 127 127 / 16%);
+  color: var(--pico-muted-color);
+  border-bottom: none;
+}
+.pill-safe { background: var(--bb-safe-soft); color: var(--bb-safe); }
+.pill-danger { background: var(--bb-danger-soft); color: var(--bb-danger); }
+.pill-warn { background: var(--bb-warn-soft); color: var(--bb-warn); }
+.top h1 .pill { font-size: 0.8rem; }
+
+/* Group cards */
+article.group { padding: 0; overflow: hidden; }
+article.group > header { margin: 0; padding: 0.8rem 1.1rem; display: flex; justify-content: space-between; align-items: flex-start; gap: 0.75rem; flex-wrap: wrap; }
+.group-title h3 { margin: 0 0 0.2rem; font-size: 1.05rem; display: flex; gap: 0.4rem; align-items: center; flex-wrap: wrap; }
+.group-title small { color: var(--pico-muted-color); }
+.group-actions { display: flex; gap: 0.4rem; flex-wrap: wrap; }
+
+/* Compact buttons inside cards and lists */
+.btn-sm { --pico-form-element-spacing-vertical: 0.3rem; --pico-form-element-spacing-horizontal: 0.7rem; font-size: 0.8rem; margin: 0; width: auto; }
+
+/* Photo tiles */
+.tiles { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(200px, 44%), 1fr)); gap: 0.9rem; padding: 1rem 1.1rem 1.1rem; }
+.tile {
+  margin: 0;
+  border: 2px solid var(--pico-muted-border-color);
+  border-radius: var(--pico-border-radius);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  background: var(--pico-background-color);
+  transition: border-color 0.15s;
+}
+.tile.marked { border-color: var(--bb-danger); }
+.tile.marked .thumb { opacity: 0.5; }
+.thumb { width: 100%; aspect-ratio: 4 / 3; object-fit: contain; display: block; background: var(--pico-card-sectioning-background-color); }
+.no-preview {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 0.6rem;
+  background: var(--pico-card-sectioning-background-color);
+  color: var(--pico-muted-color);
+  font-size: 0.8rem;
+}
+.tile figcaption { padding: 0.5rem 0.65rem; font-size: 0.78rem; display: flex; flex-direction: column; gap: 0.1rem; min-width: 0; }
+.tile .name { font-weight: 600; font-size: 0.85rem; overflow-wrap: anywhere; color: var(--pico-h3-color); }
+.tile .where, .tile .facts { color: var(--pico-muted-color); overflow-wrap: anywhere; font-variant-numeric: tabular-nums; }
+label.mark {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.4rem 0.65rem;
+  margin: auto 0 0;
+  border-top: 1px solid var(--pico-muted-border-color);
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+label.mark input { margin: 0; }
+.tile.marked label.mark, td.marked label.mark { color: var(--bb-danger); font-weight: 600; background: var(--bb-danger-soft); }
+.more { display: block; margin: 0 auto; width: auto; }
+
+/* Comparison dialog */
+dialog#compare > article { max-width: min(96vw, 1400px); width: 100%; }
+#compare-table { font-size: 0.85rem; margin: 0; }
+#compare-table th { white-space: nowrap; width: 1%; color: var(--pico-muted-color); font-weight: 600; }
+#compare-table td { min-width: 13rem; overflow-wrap: anywhere; vertical-align: top; }
+#compare-table tr.differs > * { background: var(--bb-warn-soft); }
+#compare-table tr.differs th { color: var(--bb-warn); }
+#compare-table img, #compare-table .no-preview { max-height: 46vh; width: 100%; object-fit: contain; border-radius: var(--pico-border-radius); background: var(--pico-card-sectioning-background-color); }
+#compare-table label.mark { border: 1px solid var(--pico-muted-border-color); border-radius: var(--pico-border-radius); margin-top: 0.4rem; }
+
+/* Banish list & removal report */
+.banish-actions { display: flex; gap: 0.5rem; flex-wrap: wrap; align-items: center; margin-bottom: 1rem; }
+.banish-actions button { margin: 0; width: auto; }
+.banish-bucket > header { display: flex; gap: 0.75rem; align-items: baseline; flex-wrap: wrap; }
+.banish-bucket h3 { margin: 0; font-size: 1.05rem; }
+.banish-folder { margin: 0.75rem 0 0 0.25rem; padding-left: 0.8rem; border-left: 3px solid var(--pico-muted-border-color); }
+.folder-name { font-family: var(--pico-font-family-monospace); font-size: 0.85rem; }
+.file-list { list-style: none; margin: 0.4rem 0 0; padding: 0; }
+.file-list li { list-style: none; display: flex; gap: 0.6rem; align-items: center; flex-wrap: wrap; padding: 0.3rem 0; margin: 0; border-bottom: 1px dashed var(--pico-muted-border-color); font-size: 0.88rem; }
+.file-list .fname { font-weight: 600; overflow-wrap: anywhere; }
+.file-list .facts { color: var(--pico-muted-color); font-size: 0.78rem; font-variant-numeric: tabular-nums; }
+.missing { color: var(--bb-danger); font-weight: 600; font-size: 0.8rem; }

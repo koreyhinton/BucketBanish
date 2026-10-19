@@ -1,4 +1,8 @@
 .gradle/
 build/
 *.class
-banish-plan.txt
+
+# Connection details and credentials: never commit.
+bucketbanish.local.properties
+bucketbanish.local-*.properties
+.env

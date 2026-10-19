@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <title>BucketBanish</title>
+  <link rel="stylesheet" href="vendor/pico.min.css">
+  <link rel="stylesheet" href="app.css">
+</head>
+<body>
+<header class="container top">
+  <hgroup>
+    <h1>BucketBanish <span class="pill pill-safe" data-tooltip="This tool never modifies or deletes anything" data-placement="right">Read-only</span></h1>
+    <p>Find burst shots and duplicate photos in S3. You remove them yourself in your S3 provider's console.</p>
+  </hgroup>
+  <small class="muted" id="store"></small>
+</header>
+
+<main class="container">
+  <article>
+    <form id="scan-form" novalidate>
+      <label for="targets">Buckets to scan
+        <textarea id="targets" rows="3" spellcheck="false" aria-describedby="targets-help"
+                  placeholder="s3://family-photos&#10;s3://backup-photos/2024/"></textarea>
+        <small id="targets-help">One per line, optionally with a folder prefix.</small>
+      </label>
+
+      <details>
+        <summary role="button" class="outline secondary">Options</summary>
+        <div class="grid">
+          <label>Burst gap (seconds)
+            <input id="gap" type="number" min="0.1" max="3600" step="0.1" value="2" aria-describedby="gap-help">
+            <small id="gap-help">Max time between shots in one burst</small>
+          </label>
+          <label>Similarity threshold: <strong id="threshold-out">10</strong>
+            <input id="threshold" type="range" min="0" max="32" value="10" aria-describedby="threshold-help">
+            <small id="threshold-help">0 = only near-identical, higher = looser</small>
+          </label>
+          <label>Minimum size (KiB)
+            <input id="min-size" type="number" min="0" step="1" value="1" aria-describedby="min-help">
+            <small id="min-help">For same-size grouping</small>
+          </label>
+        </div>
+        <fieldset class="grid switches">
+          <label><input id="visual" type="checkbox" role="switch" checked> Compare burst photos visually</label>
+          <label><input id="verify" type="checkbox" role="switch"> Verify same-size files with SHA-256</label>
+          <label><input id="any-camera" type="checkbox" role="switch"> Group bursts across cameras</label>
+          <label><input id="ignore-case" type="checkbox" role="switch"> Ignore filename case</label>
+        </fieldset>
+        <small class="muted">Visual comparison and SHA-256 verification download whole photos, which count toward S3 GET and transfer costs.</small>
+      </details>
+
+      <div class="form-actions">
+        <button type="submit" id="scan-btn">Scan</button>
+        <small id="form-error" class="error" role="alert" hidden></small>
+      </div>
+    </form>
+
+    <div id="progress" hidden aria-live="polite">
+      <div class="progress-row"><span id="phase">Starting…</span><small id="count" class="muted"></small></div>
+      <progress id="bar"></progress>
+    </div>
+  </article>
+
+  <section id="results" hidden>
+    <div id="summary" class="summary"></div>
+    <div id="warnings"></div>
+    <div role="group" class="tabs" aria-label="Result views">
+      <button data-tab="bursts">Bursts <span class="count" data-count="bursts"></span></button>
+      <button data-tab="sizes">Same size <span class="count" data-count="sizes"></span></button>
+      <button data-tab="names">Same filename <span class="count" data-count="names"></span></button>
+      <button data-tab="banish">Banish list <span class="count" data-count="banish"></span></button>
+    </div>
+    <div id="tab-body"></div>
+  </section>
+</main>
+
+<dialog id="compare" aria-labelledby="compare-title">
+  <article>
+    <header>
+      <button type="button" aria-label="Close" rel="prev" id="compare-close"></button>
+      <p><strong id="compare-title">Compare</strong></p>
+      <small class="muted">Rows where the photos differ are highlighted.</small>
+    </header>
+    <div class="overflow-auto"><table id="compare-table" class="striped"></table></div>
+  </article>
+</dialog>
+
+<script type="module" src="app.js"></script>
+</body>
+</html>
